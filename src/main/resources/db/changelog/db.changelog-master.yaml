@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - preConditions:
+      - runningAs:
+          username:  postgres
+#      - dbms:
+#          type: postgres
+  - changeSet:
+      id:  1
+      author:  "Camilo"
+      labels: "No se"
+      context: example-context
+      comment: example-comment
+      changes:
+        - createTable:
+            tableName:  TBL_USER
+            columns:
+              - column:
+                  name:  SEC_USER
+                  type:  int
+                  autoIncrement:  true
+                  constraints:
+                    primaryKey:  true
+                    nullable:  false
+              - column:
+                  name:  SEC_PROFILE
+                  type:  varchar(50)
+                  constraints:
+                    nullable:  false
+  - changeSet:
+      id: 2
+      author: "Camilo a"
+      labels: "No sasdasde"
+      changes:
+        - addColumn:
+            tableName: TBL_USER
+            columns:
+              - column:
+                  name: name
+                  type: varchar(20)

@@ -1,0 +1,13 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: "store-management-service"
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/store"
+    username: "postgres"
+    password: "secure@ss"
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
