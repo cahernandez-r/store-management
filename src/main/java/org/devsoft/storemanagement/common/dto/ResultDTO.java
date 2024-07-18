@@ -14,7 +14,7 @@ public class ResultDTO implements Serializable {
     private String codeErrorMessage;
     private String cause;
 
-    public ResultDTO(){
+    public ResultDTO() {
 
     }
 

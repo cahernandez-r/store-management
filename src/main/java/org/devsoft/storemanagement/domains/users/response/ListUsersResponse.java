@@ -1,6 +1,5 @@
 package org.devsoft.storemanagement.domains.users.response;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.devsoft.storemanagement.common.dto.ResultDTO;
@@ -13,5 +12,6 @@ public class ListUsersResponse extends ResultDTO {
 
     private List<String> names;
 
-    public ListUsersResponse(){}
+    public ListUsersResponse() {
+    }
 }
