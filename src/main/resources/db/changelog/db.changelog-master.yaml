@@ -5,35 +5,342 @@ databaseChangeLog:
 #      - dbms:
 #          type: postgres
   - changeSet:
-      id:  1
-      author:  "Camilo"
-      labels: "No se"
-      context: example-context
-      comment: example-comment
+      id: 1
+      author: sebastian.hernandez
+      labels: Table responsible for category information
       changes:
         - createTable:
-            tableName:  TBL_USER
+            tableName: catn_category
             columns:
               - column:
-                  name:  SEC_USER
-                  type:  int
-                  autoIncrement:  true
+                  name: sec_category
+                  type: BIGINT
+                  autoIncrement: true
                   constraints:
-                    primaryKey:  true
-                    nullable:  false
+                    primaryKey: true
+                    nullable: false
               - column:
-                  name:  SEC_PROFILE
-                  type:  varchar(50)
+                  name: code
+                  type: varchar(20)
                   constraints:
-                    nullable:  false
+                    nullable: true
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
   - changeSet:
       id: 2
-      author: "Camilo a"
-      labels: "No sasdasde"
+      author: sebastian.hernandez
+      labels: Table responsible for type products information
       changes:
-        - addColumn:
-            tableName: TBL_USER
+        - createTable:
+            tableName: catn_type_product
             columns:
               - column:
-                  name: name
+                  name: sec_type_product
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
                   type: varchar(20)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 3
+      author: sebastian.hernandez
+      labels: Table responsible for storing product information
+      changes:
+        - createTable:
+            tableName: tbl_product
+            columns:
+              - column:
+                  name: sec_product
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: sec_type_product
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: sec_category
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: entry_price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: sale_price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: quantity
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: tbl_product
+            baseColumnNames: sec_type_product
+            constraintName: fk_sec_product_type_product
+            referencedTableName: catn_type_product
+            referencedColumnNames: sec_type_product
+        - addForeignKeyConstraint:
+            baseTableName: tbl_product
+            baseColumnNames: sec_category
+            constraintName: fk_sec_product_category
+            referencedTableName: catn_category
+            referencedColumnNames: sec_category
+
+  - changeSet:
+      id: 4
+      author: sebastian.hernandez
+      labels: Table responsible for storing user profile information
+      changes:
+        - createTable:
+            tableName: tbl_profile
+            columns:
+              - column:
+                  name: sec_profile
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 5
+      author: sebastian.hernandez
+      labels: Table responsible for storing information about menu options
+      changes:
+        - createTable:
+            tableName: tbl_resource
+            columns:
+              - column:
+                  name: sec_resource
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: sec_resource_parent
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: tbl_resource
+            baseColumnNames: sec_resource_parent
+            constraintName: fk_sec_resource_parent
+            referencedTableName: tbl_resource
+            referencedColumnNames: sec_resource
+
+  - changeSet:
+      id: 6
+      author: sebastian.hernandez
+      labels: Table responsible for storing the relationship between profiles and menu actions
+      changes:
+        - createTable:
+            tableName: crc_profile_resource
+            columns:
+              - column:
+                  name: sec_profile_resource
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: sec_profile
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sec_resource
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: crc_profile_resource
+            baseColumnNames: sec_profile
+            constraintName: fk_crc_profile_resource_profile
+            referencedTableName: tbl_profile
+            referencedColumnNames: sec_profile
+        - addForeignKeyConstraint:
+            baseTableName: crc_profile_resource
+            baseColumnNames: sec_resource
+            constraintName: fk_crc_profile_resource_resource
+            referencedTableName: tbl_resource
+            referencedColumnNames: sec_resource
+
+  - changeSet:
+      id: 7
+      author: sebastian.hernandez
+      labels: Table responsible for storing user information
+      changes:
+        - createTable:
+            tableName: tbl_user
+            columns:
+              - column:
+                  name: sec_user
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: sec_profile
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: creation_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: tbl_user
+            baseColumnNames: sec_profile
+            constraintName: fk_tbl_user_profile
+            referencedTableName: tbl_profile
+            referencedColumnNames: sec_profile
