@@ -16,22 +16,9 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    public PagedResponse<FetchProductResponse> test (FindProductRequest request) {
+    public PagedResponse<FetchProductResponse> findProductsByFilters (FindProductRequest request) {
         var especification  = SpecificationProduct.createFilmSpecifications(request);
-        var find = productRepository.findAll(especification, PageRequest.of(request.getPage(), request.getSize()));
-        var map = find.get().map(product ->{
-            return FetchProductResponse.builder()
-                    .code(product.getCode())
-                    .name(product.getName())
-                    .build();
-        }).toList();
-
-        return PagedResponse.<FetchProductResponse>builder()
-                .data(map)
-                .page(find.getNumber())
-                .size(find.getSize())
-                .totalElements(find.getTotalElements())
-                .build();
-
+        var resultPagedProduct = productRepository.findAll(especification, PageRequest.of(request.getPage(), request.getSize()));
+        return ProductMapper.listProductToPagedResponse(resultPagedProduct.getContent(), request.getPage(), request.getSize(), resultPagedProduct.getTotalElements());
     }
 }

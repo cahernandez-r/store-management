@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("products")
+@RequestMapping(ProductRoute.PRODUCTS)
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("findProductsByFilters")
+    @GetMapping(ProductRoute.FIND_PRODUCTS_BY_FILTERS)
     public PagedResponse<FetchProductResponse> findProductsByFilters(@RequestBody FindProductRequest request) {
-        return productService.test(request);
+        return productService.findProductsByFilters(request);
     }
 }
