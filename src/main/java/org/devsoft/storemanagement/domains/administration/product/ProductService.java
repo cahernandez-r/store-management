@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    public PagedResponse<FetchProductResponse> findProductsByFilters (FindProductRequest request) {
+    public PagedResponse<FetchProductResponse> findProductsByFilters(final FindProductRequest request) {
         var especification  = SpecificationProduct.createFilmSpecifications(request);
         var resultPagedProduct = productRepository.findAll(especification, PageRequest.of(request.getPage(), request.getSize()));
         return ProductMapper.listProductToPagedResponse(resultPagedProduct.getContent(), request.getPage(), request.getSize(), resultPagedProduct.getTotalElements());

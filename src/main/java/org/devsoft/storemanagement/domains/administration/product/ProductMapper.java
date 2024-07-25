@@ -11,7 +11,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ProductMapper {
 
-    public static PagedResponse<FetchProductResponse> listProductToPagedResponse(List<Product> products, int page, int size, long totalElements) {
+    public static PagedResponse<FetchProductResponse> listProductToPagedResponse(final List<Product> products, final int page,
+                                                                                 final int size, final long totalElements) {
         return PagedResponse.<FetchProductResponse>builder()
                 .data(listProductToFetchProductResponse(products))
                 .page(page)
@@ -20,7 +21,7 @@ public final class ProductMapper {
                 .build();
     }
 
-    private static List<FetchProductResponse> listProductToFetchProductResponse(List<Product> products) {
+    private static List<FetchProductResponse> listProductToFetchProductResponse(final List<Product> products) {
         return products.stream().map(product -> FetchProductResponse
                         .builder()
                         .code(product.getCode())
